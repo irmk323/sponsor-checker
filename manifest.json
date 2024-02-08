@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "CSV Search Extension",
+    "version": "1.0",
+    "description": "Search text from CSV data and display popup",
+    "permissions": ["activeTab"],
+    "action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["content.js"],
+          "run_at": "document_end"
+        }
+      ]
+  }
+  
