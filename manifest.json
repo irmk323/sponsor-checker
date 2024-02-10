@@ -1,19 +1,30 @@
 {
-    "manifest_version": 3,
-    "name": "CSV Search Extension",
+    "manifest_version": 2,
+    "name": "CSV Matching Extension",
     "version": "1.0",
-    "description": "Search text from CSV data and display popup",
-    "permissions": ["activeTab"],
-    "action": {
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
+    "description": "Select a word and match with CSV data",
+    "permissions": [
+      "activeTab",
+      "storage"
+    ],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
     },
     "content_scripts": [
-        {
-          "matches": ["<all_urls>"],
-          "js": ["content.js"],
-          "run_at": "document_end"
-        }
-      ]
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
   }
   

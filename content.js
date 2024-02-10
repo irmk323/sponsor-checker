@@ -1,25 +1,36 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.action === "searchCSV") {
-      // Perform your CSV search logic here
-      // For simplicity, let's assume you have a CSV array named csvData
-      const csvData = [
-        ["a", "Result1"],
-        ["b", "Result2"],
-        // Add more data as needed
-      ];
-  
-      const searchText = request.searchText;
-      const result = searchCSVData(searchText, csvData);
-      sendResponse({ result: result });
-    }
-  });
-  
-  function searchCSVData(searchText, csvData) {
-    for (let i = 0; i < csvData.length; i++) {
-      if (csvData[i][0] === searchText) {
-        return csvData[i][1];
+// content.js
+
+document.addEventListener('mouseup', function (event) {
+  const selectedText = window.getSelection().toString().trim();
+  if (selectedText !== '') {
+    // Create a popup div
+    const popupDiv = createPopup(event.clientX, event.clientY + 10, selectedText);
+
+    // Send message to background script with selected word
+    chrome.runtime.sendMessage({ action: 'setSelectedWord', selectedWord: selectedText });
+
+    // Listen for response from background script
+    chrome.runtime.onMessage.addListener(function (message) {
+      if (message.action === 'matchResult') {
+        popupDiv.innerHTML += `<p>Match Result: ${message.matchResult}</p>`;
       }
-    }
-    return "No matching data found.";
+    });
   }
-  
+});
+
+function createPopup(x, y, selectedText) {
+  // Create a new popup div
+  const popupDiv = document.createElement('div');
+  popupDiv.style.position = 'absolute';
+  popupDiv.style.left = x + 'px';
+  popupDiv.style.top = y + 'px';
+  popupDiv.style.background = '#ffffff';
+  popupDiv.style.border = '1px solid #000000';
+  popupDiv.style.padding = '5px';
+  popupDiv.innerHTML = `<p>Selected Word: ${selectedText}</p>`;
+
+  // Append the popup to the body
+  document.body.appendChild(popupDiv);
+
+  return popupDiv;
+}
