@@ -2,11 +2,13 @@ const esbuild = require("esbuild");
 const { sassPlugin } = require("esbuild-sass-plugin");
 const { copy } = require('esbuild-plugin-copy');
 
-const copyConfigs = {
-    manifest: { from: ["manifest.json"], to: ["manifest.json"]},
-    icon: { from: ["icon.png"], to: ["icon.png"]},
-    popupHtml: { from: ["popup.html"], to: ["popup.html"]},
-};
+const filesToStaticallyCopy = [
+    "manifest.json",
+    "icon.png",
+    "popup.html",
+    "background.js",
+    "content.js"
+];
 
 esbuild
     .build({
@@ -15,9 +17,7 @@ esbuild
         bundle: true,
         plugins: [
             sassPlugin(),
-            copy({ assets: copyConfigs.manifest }),
-            copy({ assets: copyConfigs.popupHtml }),
-            copy({ assets: copyConfigs.icon }),
+            ...filesToStaticallyCopy.map(file => copy({ assets: {from: [file], to: [file]} }))
         ]
     })
     .then(() => console.log("We did it?!@. Build complete."))

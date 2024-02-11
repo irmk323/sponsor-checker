@@ -1,7 +1,3 @@
-import { add } from "./lib/utils";
-
-console.log('add', add);
-
 
 document.addEventListener('mouseup', function (event) {
   const selectedText = window.getSelection().toString().trim();
