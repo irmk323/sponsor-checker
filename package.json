@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "dist": "node esbuild.js",
+    "dist": "rm -rf dist; node esbuild.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
