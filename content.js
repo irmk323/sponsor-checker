@@ -2,8 +2,10 @@
 document.addEventListener('mouseup', function (event) {
   const selectedText = window.getSelection().toString().trim();
   if (selectedText !== '') {
-    // Create a popup div
-    const popupDiv = createPopup(event.clientX, event.clientY + 10, selectedText);
+    // Calculate adjusted coordinates based on scroll position
+    const x = event.clientX + window.scrollX;
+    const y = event.clientY + window.scrollY + 10;
+    const popupDiv = createPopup(x, y, selectedText);
 
     // Send message to background script with selected word
     chrome.runtime.sendMessage({ action: 'setSelectedWord', selectedWord: selectedText });
@@ -14,6 +16,13 @@ document.addEventListener('mouseup', function (event) {
         popupDiv.innerHTML += `<p>Match Result: ${message.matchResult}</p>`;
       }
     });
+    const outsideClickListener = function (e) {
+      if (!popupDiv.contains(e.target)) {
+        document.removeEventListener('mousedown', outsideClickListener);
+        popupDiv.remove();
+      }
+    };
+    document.addEventListener('mousedown', outsideClickListener);
   }
 });
 
