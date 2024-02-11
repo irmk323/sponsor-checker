@@ -2,30 +2,38 @@ import { add } from "./lib/utils";
 
 console.log('add', add);
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === 'setSelectedWord') {
-    const selectedWord = request.selectedWord;
 
-    // Match with CSV data (replace this with your matching logic)
-    const matchResult = matchWithCSV(selectedWord);
+document.addEventListener('mouseup', function (event) {
+  const selectedText = window.getSelection().toString().trim();
+  if (selectedText !== '') {
+    // Create a popup div
+    const popupDiv = createPopup(event.clientX, event.clientY + 10, selectedText);
 
-    // Send the match result back to content script
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { action: 'matchResult', matchResult: matchResult });
+    // Send message to background script with selected word
+    chrome.runtime.sendMessage({ action: 'setSelectedWord', selectedWord: selectedText });
+
+    // Listen for response from background script
+    chrome.runtime.onMessage.addListener(function (message) {
+      if (message.action === 'matchResult') {
+        popupDiv.innerHTML += `<p>Match Result: ${message.matchResult}</p>`;
+      }
     });
   }
 });
 
-function matchWithCSV(selectedWord) {
-  // Implement your CSV matching logic here
-  // For simplicity, a sample matching logic is provided below
-  const csvData = "word1,description1\nword2,description2\nword3,description3";
-  const lines = csvData.split('\n');
-  for (const line of lines) {
-    const [word, definition] = line.split(',');
-    if (word === selectedWord) {
-      return definition;
-    }
-  }
-  return 'No match found';
+function createPopup(x, y, selectedText) {
+  // Create a new popup div
+  const popupDiv = document.createElement('div');
+  popupDiv.style.position = 'absolute';
+  popupDiv.style.left = x + 'px';
+  popupDiv.style.top = y + 'px';
+  popupDiv.style.background = '#ffffff';
+  popupDiv.style.border = '1px solid #000000';
+  popupDiv.style.padding = '5px';
+  popupDiv.innerHTML = `<p>Selected Word: ${selectedText}</p>`;
+
+  // Append the popup to the body
+  document.body.appendChild(popupDiv);
+
+  return popupDiv;
 }
