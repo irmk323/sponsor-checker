@@ -1,0 +1,27 @@
+{
+  "name": "sponsor-checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dist": "node esbuild.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "chrome-types": "^0.1.263",
+    "esbuild": "^0.20.0",
+    "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-sass-plugin": "^3.0.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
