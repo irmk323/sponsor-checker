@@ -15,9 +15,8 @@ export const SettingsPage: React.FC<{}> = () => {
                     links to stuff
                 </Text>{' '}
                 and some settings. Right now we only have one.
-                <EnabledSwitch />
             </Text>
-
+            <EnabledSwitch />
         </Card>
     );
 }
