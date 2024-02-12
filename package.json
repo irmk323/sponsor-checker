@@ -18,9 +18,14 @@
     "chrome-types": "^0.1.263",
     "esbuild": "^0.20.0",
     "esbuild-plugin-copy": "^2.1.1",
-    "esbuild-sass-plugin": "^3.0.0"
+    "esbuild-sass-plugin": "^3.0.0",
+    "postcss": "^8.4.35",
+    "postcss-preset-mantine": "^1.13.0",
+    "postcss-simple-vars": "^7.0.1"
   },
   "dependencies": {
+    "@mantine/core": "^7.5.2",
+    "@mantine/hooks": "^7.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

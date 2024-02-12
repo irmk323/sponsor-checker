@@ -7,12 +7,15 @@ const filesToStaticallyCopy = [
     "icon.png",
     "popup.html",
     "background.js",
-    "content.js"
+    // "content.js"
 ];
 
 esbuild
     .build({
-        entryPoints: ["src/popup/Popup.tsx", "src/popup/style.scss"],
+        entryPoints: [
+            "src/popup/app.tsx",
+            "src/content.ts",
+            "src/popup/style.scss"],
         outdir: "dist",
         bundle: true,
         plugins: [
