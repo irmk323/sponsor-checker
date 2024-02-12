@@ -19,7 +19,7 @@ esbuild
         bundle: true,
         plugins: [
             sassPlugin(),
-            ...filesToStaticallyCopy.map(({from, to}) => copy({ assets: {from: [from], to: [to] } }))
+            ...filesToStaticallyCopy.map(({from, to}) => copy({ assets: { from, to } }))
         ]
     })
     .then(() => console.log("We did it?!@. Build complete."))
