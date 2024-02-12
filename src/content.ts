@@ -1,9 +1,7 @@
-import { getFromLocalStorage } from "./chrome-utils/localStorage";
-
-const localStorageKey = "isExtensionEnabled"; // BAD! maintain keys centrally.
+import { isExtensionEnabled } from "./storage/localStorage";
 
 document.addEventListener('mouseup', async function (event) {
-    const isEnabled = await getFromLocalStorage(localStorageKey) as boolean | undefined;
+    const isEnabled = await isExtensionEnabled();
     const selectedText = window.getSelection()?.toString().trim() ?? "";
     if (isEnabled !== true) {
         return;

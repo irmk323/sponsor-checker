@@ -8,7 +8,6 @@ import '@mantine/core/styles.css';
 const ROOT_DIV_ID = 'popup-root';
 const rawRootDiv = document.getElementById(ROOT_DIV_ID);
 if (rawRootDiv != null) {
-    chrome.storage.local.get
     const root = createRoot(rawRootDiv);
     root.render(
         <MantineProvider>

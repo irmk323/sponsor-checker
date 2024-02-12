@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Switch, Text } from '@mantine/core';
-import { getFromLocalStorage, saveToLocalStorage } from "../chrome-utils/localStorage"
+import { isExtensionEnabled, setIsExtensionEnabled } from "../storage/localStorage"
 
 export const SettingsPage: React.FC<{}> = () => {
     return (
@@ -10,7 +10,7 @@ export const SettingsPage: React.FC<{}> = () => {
             </Card.Section>
 
             <Text mt="sm" c="dimmed" size="sm">
-                We can populate this nicely with 
+                We can populate this nicely with{' '}
                 <Text span inherit c="var(--mantine-color-anchor)">
                     links to stuff
                 </Text>{' '}
@@ -25,18 +25,17 @@ export const SettingsPage: React.FC<{}> = () => {
 
 
 function EnabledSwitch() {
-    const localStorageKey = "isExtensionEnabled"; // BAD! maintain keys centrally.
     const [checked, setChecked] = React.useState(false);
-    
+
     const fetchIsEnabled = React.useCallback(async () => {
-        const isEnabled = await getFromLocalStorage(localStorageKey) as boolean | undefined;
+        const isEnabled = await isExtensionEnabled();
         setChecked(isEnabled ?? false);
     }, []);
 
     React.useEffect(() => { fetchIsEnabled(); }, [fetchIsEnabled]);
 
     const toggleEnabled = React.useCallback(async () => {
-        await saveToLocalStorage({[localStorageKey]: !checked});
+        await setIsExtensionEnabled(!checked);
         fetchIsEnabled();
     }, [checked, fetchIsEnabled]);
 

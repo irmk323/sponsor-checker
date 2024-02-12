@@ -6,8 +6,7 @@ const filesToStaticallyCopy = [
     "manifest.json",
     "icon.png",
     "popup.html",
-    "background.js",
-    // "content.js"
+    "background.js"
 ];
 
 esbuild
