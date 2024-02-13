@@ -1,8 +1,15 @@
 * { margin: 0px; }
 
+.reverse-flex {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.padded { padding: 10px; }
+
 .main-page {
     height: 400px;
-    overflow-y: auto;
+    overflow-y: hidden;
     width: 400px;
     padding: 10px 0px;
 }
@@ -10,11 +17,17 @@
 .tab-panel {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
     padding: 10px;
     gap: 5px;
 }
 
-.reverse-flex {
+.search-panel {
+    padding: 0px;
+}
+
+.companies-card-header {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: space-between;
 }
