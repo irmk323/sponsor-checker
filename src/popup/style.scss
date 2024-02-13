@@ -1,6 +1,20 @@
 * { margin: 0px; }
 
 .main-page {
+    height: 400px;
+    overflow-y: auto;
     width: 400px;
     padding: 10px 0px;
+}
+
+.tab-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+}
+
+.reverse-flex {
+    display: flex;
+    flex-direction: row-reverse;
 }
