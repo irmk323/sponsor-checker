@@ -1,6 +1,12 @@
 type StorageObject = { [name: string]: any };
 
+// Creating this as a dict, as we might want to save some metadata under the same key.
+export type CompanyData = {
+    companies: string[];
+}
+
 const IS_ENABLED = "isExtensionEnabled";
+const COMPANY_DATA = "companyData";
 
 export const isExtensionEnabled = async (): Promise<boolean> => {
     const isEnabled = await getFromLocalStorage(IS_ENABLED) as boolean | undefined;
@@ -9,6 +15,15 @@ export const isExtensionEnabled = async (): Promise<boolean> => {
 
 export const setIsExtensionEnabled = async (isEnabled: boolean): Promise<void> => {
     return saveToLocalStorage({[IS_ENABLED]: isEnabled});
+}
+
+export const getCompanyData = async (): Promise<CompanyData> => {
+    const companyData = await getFromLocalStorage(COMPANY_DATA) as CompanyData | undefined;
+    return companyData ?? { companies: [] };
+}
+
+export const setCompanyData = async (companyData: CompanyData): Promise<void> => {
+    return saveToLocalStorage({[COMPANY_DATA]: companyData});
 }
 
 const getFromLocalStorage = async function (key: string): Promise<any> {

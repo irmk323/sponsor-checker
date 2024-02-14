@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { MantineProvider } from '@mantine/core';
-import { SettingsPage } from "./SettingsPage";
+import { PopupPage } from "./Popup";
 
 import '@mantine/core/styles.css';
 
@@ -11,7 +11,7 @@ if (rawRootDiv != null) {
     const root = createRoot(rawRootDiv);
     root.render(
         <MantineProvider>
-            <SettingsPage />
+            <PopupPage />
         </MantineProvider>
     );
 } else {

@@ -33,7 +33,7 @@ document.addEventListener('mouseup', async function (event) {
     }
 });
 
-function createPopup(x, y, selectedText) {
+function createPopup(x: number, y: number, selectedText: string) {
     // Create a new popup div
     const popupDiv = document.createElement('div');
     popupDiv.style.position = 'absolute';

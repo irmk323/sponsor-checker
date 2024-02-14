@@ -1,3 +1,33 @@
 * { margin: 0px; }
 
-.main-card { width: 400px; }
+.reverse-flex {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.padded { padding: 10px; }
+
+.main-page {
+    height: 400px;
+    overflow-y: hidden;
+    width: 400px;
+    padding: 10px 0px;
+}
+
+.tab-panel {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+    padding: 10px;
+    gap: 5px;
+}
+
+.search-panel {
+    padding: 0px;
+}
+
+.companies-card-header {
+    display: flex;
+    justify-content: space-between;
+}
