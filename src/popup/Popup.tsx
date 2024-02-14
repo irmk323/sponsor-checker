@@ -96,7 +96,6 @@ const SearchPage: React.FC<{}> = () => {
         return <Loader />
     }
 
-    // TODO: maybe expose means to handle errors here
     if (companyNames == "error") {
         return (
             <div className="padded">
@@ -138,8 +137,6 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
                         mt="md"
                     />
                 </FocusTrap>
-                {/* TODO: Pluralize this correctly */}
-                {/* TODO: Format the number nicely */}
                 <Text c="dimmed" size="sm"><b>{filteredCompanyNames.length}</b> companies matching your filter</Text>
             </div>
             <Table.ScrollContainer minWidth={200}>
@@ -157,7 +154,6 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
         setLoading();
         try {
             const companyNames = await fetchCsv(url);
-            // const companies = await metchCsv(MOCK_ROWS.join("\n"));
             await setCompanyData({ companies: companyNames });
             setLoaded();
             setcompanyNames(companyNames);
@@ -171,23 +167,14 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
 
     return (
         <>
-            {/* TODO: Maybe be more helpful here? Render a hyperlink to Uk.gov"s page? Through which the users can grab the csv url? */}
             <Text mt="sm" c="dimmed" size="sm">
                 The list of authorized sponsors is not present in the local storage.
                 Please enter the URL for this list in the space provided below.
             </Text>
-
             <Text mt="sm" c="dimmed" size="sm">
                 Storing this list in local storage will enhance the extension"s
                 performance and reduce unnecessary data usage.
             </Text>
-
-            {/* https://assets.publishing.service.gov.uk/media/65cb4f16a7ded0000c79e4f3/2024-02-13_-_Worker_and_Temporary_Worker.csv */}
-            {/* TODO:
-                We can auto detect this url by reading uk-gov"s page.
-                In later iterations, below input field should be a fallback
-                for cases where the plugin can"t figure out this url automatically.
-            */}
             <Input
                 placeholder="Download URL for the csv"
                 value={url}

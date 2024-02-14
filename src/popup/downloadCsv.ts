@@ -12,18 +12,12 @@ const transformParsedCsv = (govUkRows: GovUKRow[]): string[] => (
 );
 
 export const fetchCsv = async (url: string) => {
-    console.log('fetching url:', url);
     const res = await fetch(url, {
         mode: "cors"
     });
     const body = await res.text();
     const parsed = await papaParse(body);
     return transformParsedCsv(parsed.data);
-};
-
-export const metchCsv = async (body: string) => {
-    const govUkRows = (await papaParse(body)).data;
-    return transformParsedCsv(govUkRows);
 };
 
 export const papaParse = (csvString: string): Promise<Papa.ParseResult<GovUKRow>> => {
