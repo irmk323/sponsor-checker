@@ -18,5 +18,5 @@ jobs:
       run: npm run lint
     - name: Bundle
       run: npm run dist
-    - name: Done
+    - name: Donezie ^_^
       run: echo "All good =)"
