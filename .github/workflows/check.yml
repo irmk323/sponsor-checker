@@ -12,7 +12,11 @@ jobs:
     container: node:20
     steps:
     - uses: actions/checkout@v3
-    - run: npm install
-    - run: npm run lint
-    - run: npm run dist
-    - run: echo "All good =)"
+    - name: Install
+      run: npm install
+    - name: Running eslint
+      run: npm run lint
+    - name: Bundle
+      run: npm run dist
+    - name: Done
+      run: echo "All good =)"
