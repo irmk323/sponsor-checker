@@ -1,4 +1,4 @@
-type StorageObject = { [name: string]: any };
+type StorageObject = { [name: string]: unknown };
 
 // Creating this as a dict, as we might want to save some metadata under the same key.
 export type CompanyData = {
@@ -26,7 +26,7 @@ export const setCompanyData = async (companyData: CompanyData): Promise<void> =>
     return saveToLocalStorage({[COMPANY_DATA]: companyData});
 }
 
-const getFromLocalStorage = async function (key: string): Promise<any> {
+const getFromLocalStorage = async function (key: string): Promise<unknown> {
     return new Promise((resolve, reject) => {
         try {
             chrome.storage.local.get(key, value => resolve(value[key]));
