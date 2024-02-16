@@ -1,10 +1,10 @@
-import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, Card, TableData, Table, FocusTrap } from "@mantine/core";
+import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, TableData, Table, FocusTrap } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 
 import React from "react";
 import { getCompanyData, setCompanyData, isExtensionEnabled, setIsExtensionEnabled } from "../storage/localStorage"
 import { useBoolean } from "../utils";
-import { fetchCsv, metchCsv } from "./downloadCsv";
+import { fetchCsv } from "./downloadCsv";
 import classnames from "classnames";
 
 const TABS = {
@@ -12,7 +12,7 @@ const TABS = {
     settings: "settings",
 } as const;
 
-export const PopupPage: React.FC<{}> = () => {
+export const PopupPage: React.FC = () => {
     const iconStyle = { width: rem(12), height: rem(12) };
     const [activeTab, setActiveTab] = React.useState<string>(TABS.search);
     return (
@@ -35,7 +35,7 @@ export const PopupPage: React.FC<{}> = () => {
     );
 }
 
-const SettingsPage: React.FC<{}> = () => {
+const SettingsPage: React.FC = () => {
     return (
         <>
             <Text c="dimmed" size="sm">
@@ -77,7 +77,7 @@ function EnabledSwitch() {
     );
 }
 
-const SearchPage: React.FC<{}> = () => {
+const SearchPage: React.FC = () => {
     const [companyNames, setcompanyNames] = React.useState<"loading" | "error" | string[]>("loading");
     const fetchCompanies = React.useCallback(async () => {
         try {
@@ -100,7 +100,7 @@ const SearchPage: React.FC<{}> = () => {
         return (
             <div className="padded">
                 <Notification withCloseButton={false} color="red" title="Error">
-                    Failed to read data from chrome's local storage.
+                    Failed to read data from chrome`&apos;`s local storage.
                 </Notification>
             </div>
         );
@@ -163,7 +163,7 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
             console.log("fuck", e);
             setLoaded();
         }
-    }, [url]);
+    }, [url, setLoading, setLoaded, setcompanyNames]);
 
     return (
         <>
@@ -172,7 +172,7 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 Please enter the URL for this list in the space provided below.
             </Text>
             <Text mt="sm" c="dimmed" size="sm">
-                Storing this list in local storage will enhance the extension"s
+                Storing this list in local storage will enhance the extension`&apos;`s
                 performance and reduce unnecessary data usage.
             </Text>
             <Input

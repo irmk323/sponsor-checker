@@ -8,6 +8,8 @@
   },
   "scripts": {
     "dist": "rm -rf dist; node esbuild.js",
+    "lint": "eslint src/",
+    "lint-fix": "eslint --fix src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,9 +19,14 @@
     "@types/papaparse": "^5.3.14",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
     "esbuild": "^0.20.0",
     "esbuild-plugin-copy": "^2.1.1",
-    "esbuild-sass-plugin": "^3.0.0"
+    "esbuild-sass-plugin": "^3.0.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
   },
   "dependencies": {
     "@mantine/core": "^7.5.2",

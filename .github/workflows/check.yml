@@ -1,0 +1,22 @@
+name: CI for esbuild and eslint
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:20
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install
+      run: npm install
+    - name: Running eslint
+      run: npm run lint
+    - name: Bundle
+      run: npm run dist
+    - name: Donezie ^_^
+      run: echo "All good =)"
