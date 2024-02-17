@@ -1,4 +1,4 @@
-import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, TableData, Table, FocusTrap } from "@mantine/core";
+import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, TableData, Table, FocusTrap,Container } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 
 import React from "react";
@@ -166,6 +166,7 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
     }, [url, setLoading, setLoaded, setcompanyNames]);
 
     return (
+        <Container>
         <>
             <Text mt="sm" c="dimmed" size="sm">
                 The list of authorized sponsors is not present in the local storage.
@@ -175,6 +176,17 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 Storing this list in local storage will enhance the extension`&apos;`s
                 performance and reduce unnecessary data usage.
             </Text>
+            <Text mt="sm" c="dimmed" size="sm">
+                You can get the csv URL from{' '}
+                <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--mantine-color-anchor)' }}> gov.uk website</a>.
+                <br/>
+                Please go to this page and copy the URL of the csv link.
+                <br/>
+                *The URL must end with
+                <br/>
+                20XX-MM-DD_-_Worker_and_Temporary_Worker.csv
+            </Text>
             <Input
                 placeholder="Download URL for the csv"
                 value={url}
@@ -182,8 +194,9 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 mt="md"
             />
             <div className="reverse-flex">
-                <Button loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
+                <Button m={10} loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
             </div>
         </>
+        </Container>
     );
 }
