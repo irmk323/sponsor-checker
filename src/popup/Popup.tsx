@@ -120,6 +120,7 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
         }
         return companyNames.filter(name => name.toLowerCase().includes(lowerCaseText));
     }, [companyNames, searchText]);
+    const formattedCompanyCount = new Intl.NumberFormat().format(filteredCompanyNames.length);
 
     const tableData: TableData = React.useMemo(() => ({
         body: filteredCompanyNames.slice(0, 50).map(name => [<Text key={name}>{name}</Text>]),
@@ -137,7 +138,7 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
                         mt="md"
                     />
                 </FocusTrap>
-                <Text c="dimmed" size="sm"><b>{filteredCompanyNames.length}</b> companies matching your filter</Text>
+                <Text c="dimmed" size="sm"><b>{formattedCompanyCount}</b> {filteredCompanyNames.length  <= 1 ? 'company' : 'companies'} matching your filter</Text>
             </div>
             <Table.ScrollContainer minWidth={200}>
                 <Table highlightOnHover data={tableData} />
