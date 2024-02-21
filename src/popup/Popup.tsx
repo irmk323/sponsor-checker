@@ -123,7 +123,7 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
     const formattedCompanyCount = new Intl.NumberFormat().format(filteredCompanyNames.length);
 
     const tableData: TableData = React.useMemo(() => ({
-        body: filteredCompanyNames.slice(0, 50).map(name => [<Text key={name}>{name}</Text>]),
+        body: filteredCompanyNames.slice(0, 50).map(name => [<Text size="sm" key={name}>{name}</Text>]),
     }), [filteredCompanyNames]);
 
     return (
@@ -168,7 +168,6 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
 
     return (
         <Container>
-        <>
             <Text mt="sm" c="dimmed" size="sm">
                 The list of authorized sponsors is not present in the local storage.
                 Please enter the URL for this list in the space provided below.
@@ -197,7 +196,6 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
             <div className="reverse-flex">
                 <Button m={10} loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
             </div>
-        </>
         </Container>
     );
 }
