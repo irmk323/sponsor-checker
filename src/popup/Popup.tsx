@@ -1,4 +1,4 @@
-import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, TableData, Table, FocusTrap } from "@mantine/core";
+import { Switch, Text, Tabs, Notification, rem, Input, Button, Loader, TableData, Table, FocusTrap,Container } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 
 import React from "react";
@@ -120,9 +120,10 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
         }
         return companyNames.filter(name => name.toLowerCase().includes(lowerCaseText));
     }, [companyNames, searchText]);
+    const formattedCompanyCount = new Intl.NumberFormat().format(filteredCompanyNames.length);
 
     const tableData: TableData = React.useMemo(() => ({
-        body: filteredCompanyNames.slice(0, 50).map(name => [<Text key={name}>{name}</Text>]),
+        body: filteredCompanyNames.slice(0, 50).map(name => [<Text size="sm" key={name}>{name}</Text>]),
     }), [filteredCompanyNames]);
 
     return (
@@ -137,7 +138,7 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
                         mt="md"
                     />
                 </FocusTrap>
-                <Text c="dimmed" size="sm"><b>{filteredCompanyNames.length}</b> companies matching your filter</Text>
+                <Text c="dimmed" size="sm"><b>{formattedCompanyCount}</b> {filteredCompanyNames.length  <= 1 ? 'company' : 'companies'} matching your filter</Text>
             </div>
             <Table.ScrollContainer minWidth={200}>
                 <Table highlightOnHover data={tableData} />
@@ -166,7 +167,7 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
     }, [url, setLoading, setLoaded, setcompanyNames]);
 
     return (
-        <>
+        <Container>
             <Text mt="sm" c="dimmed" size="sm">
                 The list of authorized sponsors is not present in the local storage.
                 Please enter the URL for this list in the space provided below.
@@ -175,6 +176,17 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 Storing this list in local storage will enhance the extension`&apos;`s
                 performance and reduce unnecessary data usage.
             </Text>
+            <Text mt="sm" c="dimmed" size="sm">
+                You can get the csv URL from{' '}
+                <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--mantine-color-anchor)' }}> gov.uk website</a>.
+                <br/>
+                Please go to this page and copy the URL of the csv link.
+                <br/>
+                *The URL must end with
+                <br/>
+                20XX-MM-DD_-_Worker_and_Temporary_Worker.csv
+            </Text>
             <Input
                 placeholder="Download URL for the csv"
                 value={url}
@@ -182,8 +194,8 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 mt="md"
             />
             <div className="reverse-flex">
-                <Button loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
+                <Button m={10} loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
             </div>
-        </>
+        </Container>
     );
 }
