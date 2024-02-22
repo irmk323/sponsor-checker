@@ -85,8 +85,7 @@ const SearchPage: React.FC = () => {
             setcompanyNames(companyData.companies);
         } catch (e) {
             console.error("Could not read `company data`", e);
-            setcompanyNames([]);
-            // setcompanyNames("error");
+            setcompanyNames("error");
         }
     }, []);
 
