@@ -85,7 +85,6 @@ const SearchPage: React.FC = () => {
             setcompanyNames(companyData.companies);
         } catch (e) {
             console.error("Could not read `company data`", e);
-            // setcompanyNames([]);
             setcompanyNames("error");
         }
     }, []);
@@ -100,7 +99,7 @@ const SearchPage: React.FC = () => {
         return (
             <div className="padded">
                 <Notification withCloseButton={false} color="red" title="Error">
-                    Failed to read data from chrome`&apos;`s local storage.
+                    Failed to read data from chrome&apos;s local storage.
                 </Notification>
             </div>
         );
@@ -147,24 +146,43 @@ const CompaniesPanel: React.FC<{ companyNames: string[] }> = ({ companyNames }) 
     );
 }
 
+const GOV_UK_URL = "https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers";
+
 const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => void}> = ( { setcompanyNames }) => {
     const [url, setUrl] = React.useState("");
-    const { setTrue: setLoading, setFalse: setLoaded, value: isLoading } = useBoolean();
+    const { setTrue: setCsvDownloading, setFalse: setCsvDownloaded, value: isCsvDownloading } = useBoolean();
+    const [isParsingUrl, setIsParsingUrl] = React.useState(true);
+    
+    const fetchCsvUrl = React.useCallback(async () => {
+        try {
+            const response = await (await fetch(GOV_UK_URL)).text();
+            const govUkPage = new DOMParser().parseFromString(response, 'text/html');
+            const maybeUrl = govUkPage.getElementsByClassName("gem-c-attachment__link").item(0)?.getAttribute("href");
+            if (maybeUrl != null) {
+                setUrl(maybeUrl);
+            }
+        } catch (e) {
+            console.error("Could not parse csv url", e);
+        } finally {
+            setIsParsingUrl(false);
+        }
+    }, []);
+    React.useEffect(() => { fetchCsvUrl(); }, [fetchCsvUrl]);
 
     const handleDownloadClicked = React.useCallback(async () => {
-        setLoading();
+        setCsvDownloading();
         try {
             const companyNames = await fetchCsv(url);
             await setCompanyData({ companies: companyNames });
-            setLoaded();
+            setCsvDownloaded();
             setcompanyNames(companyNames);
             console.log("companyNames", companyNames);
         }
         catch (e) {
             console.log("fuck", e);
-            setLoaded();
+            setCsvDownloaded();
         }
-    }, [url, setLoading, setLoaded, setcompanyNames]);
+    }, [url, setCsvDownloading, setCsvDownloaded, setcompanyNames]);
 
     return (
         <Container>
@@ -173,12 +191,12 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 Please enter the URL for this list in the space provided below.
             </Text>
             <Text mt="sm" c="dimmed" size="sm">
-                Storing this list in local storage will enhance the extension`&apos;`s
+                Storing this list in local storage will enhance the extension&apos;s
                 performance and reduce unnecessary data usage.
             </Text>
             <Text mt="sm" c="dimmed" size="sm">
                 You can get the csv URL from{' '}
-                <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank" rel="noopener noreferrer"
+                <a href={GOV_UK_URL} target="_blank" rel="noreferrer"
                 style={{ color: 'var(--mantine-color-anchor)' }}> gov.uk website</a>.
                 <br/>
                 Please go to this page and copy the URL of the csv link.
@@ -188,13 +206,24 @@ const DownloadCSVPanel: React.FC<{setcompanyNames: (companyNames: string[]) => v
                 20XX-MM-DD_-_Worker_and_Temporary_Worker.csv
             </Text>
             <Input
-                placeholder="Download URL for the csv"
+                placeholder={isParsingUrl ? "Attempting to parse CSV url..." : "Download URL for the CSV"}
                 value={url}
                 onChange={e => setUrl(e.target.value)}
                 mt="md"
+                disabled={isParsingUrl}
+                rightSection={isParsingUrl ? <Loader size={14} /> : undefined}
             />
             <div className="reverse-flex">
-                <Button m={10} loading={isLoading} size="xs" variant="filled" onClick={handleDownloadClicked}>Save CSV</Button>
+                <Button
+                    m={10}
+                    loading={isCsvDownloading}
+                    size="xs"
+                    variant="filled"
+                    onClick={handleDownloadClicked}
+                    disabled={isParsingUrl}
+                >
+                    Save CSV
+                </Button>
             </div>
         </Container>
     );
